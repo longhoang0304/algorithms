@@ -1,13 +1,40 @@
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 
-using std::vector;
 using std::queue;
+using std::vector;
 
 int bipartite(vector<vector<int> > &adj) {
-  //write your code here
-  return -1;
+  vector<int> colours(adj.size(), -1);
+  vector<int> visited(adj.size(), 0);
+  queue<int> q;
+
+  for (int i = 0; i < adj.size(); i++) {
+    if (visited[i]) continue;
+    q.push(i);
+    while (!q.empty()) {
+      int n = q.front();
+      q.pop();
+      if (visited[n]) continue;
+      visited[n] = 1;
+
+      int v = colours[n];
+      if (v == -1) colours[n] = 0;
+      v = colours[n];
+
+      int nextcolour = int(!v);
+
+      for (auto c : adj[n]) {
+        if (colours[c] != -1 && colours[c] != nextcolour) return 0;
+        if (visited[c]) continue;
+        q.push(c);
+        if (colours[c] == -1) colours[c] = nextcolour;
+      }
+    }
+  }
+
+  return 1;
 }
 
 int main() {

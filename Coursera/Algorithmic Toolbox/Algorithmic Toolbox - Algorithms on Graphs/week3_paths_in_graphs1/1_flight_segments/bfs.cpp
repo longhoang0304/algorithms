@@ -1,13 +1,32 @@
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 
-using std::vector;
+#define MIN(a, b) (a < b) ? (a) : (b)
+
 using std::queue;
+using std::vector;
 
 int distance(vector<vector<int> > &adj, int s, int t) {
-  //write your code here
-  return -1;
+  vector<int> shortest(adj.size(), 99999999);
+  vector<int> visited(adj.size(), 0);
+  queue<int> q = queue<int>();
+  q.push(s);
+  shortest[s] = 0;
+  while (!q.empty()) {
+    int n = q.front();
+    q.pop();
+    int v = shortest[n];
+    if (visited[n]) continue;
+    visited[n] = 1;
+    for (auto c : adj[n]) {
+      if (visited[c]) continue;
+      q.push(c);
+      shortest[c] = MIN(v + 1, shortest[c]);
+    }
+  }
+  if (!visited[t]) return -1;
+  return shortest[t];
 }
 
 int main() {
