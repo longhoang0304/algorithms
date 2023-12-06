@@ -1,3 +1,7 @@
 .ionide/**
 .vscode
 .idea
+
+# binaries + debug symbols
+*.exe
+*.pdb
