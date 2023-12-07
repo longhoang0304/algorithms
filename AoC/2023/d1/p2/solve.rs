@@ -5,7 +5,7 @@ use std::io;
 struct TrieNode {
     value: char,
     is_word: bool,
-    children: HashMap<char, Vec<Box<TrieNode>>>,
+    children: HashMap<char, Box<TrieNode>>,
 }
 
 impl TrieNode {
@@ -18,49 +18,17 @@ impl TrieNode {
     }
 
     fn get_mut(&mut self, c: char) -> Option<&mut Box<TrieNode>> {
-        let children = self.children.get_mut(&c);
-
-        if children.is_none() {
-            return None;
-        }
-
-        for child in children.unwrap() {
-            if child.value == c {
-                return Some(child);
-            }
-        }
-
-        None
+        self.children.get_mut(&c)
     }
 
     fn get(&self, c: char) -> Option<&Box<TrieNode>> {
-        let children = self.children.get(&c);
-
-        if children.is_none() {
-            return None;
-        }
-
-        for child in children.unwrap() {
-            if child.value == c {
-                return Some(child);
-            }
-        }
-
-        None
+        self.children.get(&c)
     }
 
     fn add_child(&mut self, child: TrieNode) {
         let key = child.value;
         let boxed_child = Box::new(child);
-        let children = &mut self.children.entry(key).or_insert(vec![]);
-
-        for existed_child in children.iter() {
-            if existed_child.value == key {
-                return;
-            }
-        }
-
-        children.push(boxed_child);
+        let _ = &mut self.children.entry(key).or_insert(boxed_child);
     }
 }
 
