@@ -75,8 +75,7 @@ fn main() {
         buffer.make_ascii_lowercase();
 
         let buffer_clone = buffer.clone();
-        let striped_game = buffer_clone.strip_suffix("\n").unwrap();
-        let game_removed_str = striped_game.strip_prefix("game ").unwrap();
+        let game_removed_str = buffer_clone.trim().strip_prefix("game ").unwrap();
 
         buffer.clear();
         result += check_balls(game_removed_str);
