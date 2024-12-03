@@ -1,8 +1,4 @@
-from heapq import *
-
 inp = open("./input", "r").readlines()
-left = []
-right = []
 
 def is_safe(report):
     diff = report[0] - report[1]

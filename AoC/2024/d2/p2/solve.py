@@ -1,5 +1,3 @@
-from heapq import *
-
 inp = open("./input", "r").readlines()
 
 
